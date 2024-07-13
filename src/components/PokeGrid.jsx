@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import PokeCard from './PokeCard'
 import axios from 'axios';
 import Button from './Button';
+import Loader from './Loader'
 
 export default function PokeGrid() {
     const [offset, setoffset] = useState(0);
@@ -22,7 +23,7 @@ export default function PokeGrid() {
         setoffset(offset + 32);
     }
     const prevhandler = () => {
-        if (offset > 32) {
+        if (offset >= 32) {
             setoffset(offset - 32);
         } else {
             setoffset(0);
@@ -67,7 +68,7 @@ export default function PokeGrid() {
                     <Button 
                         name="Reset"
                         handleClick={setnull}
-                        isDisabled={searchResults==null ? 'true':'false'}
+                        isDisabled={searchResults==null ? true:false}
                     />
                 </div>
             </div>
@@ -92,7 +93,11 @@ export default function PokeGrid() {
                             </div>
                         ))
                     ) : (
-                        <p className='text-white'>Loading...</p> // Or any other loading indicator
+                        <div className='flex items-center justify-center h-full w-full'>
+                            <p className='text-white'>Loading...</p>
+                            <Loader/>
+                        </div>
+                         // Or any other loading indicator
                     )
                 )}
             </div>
@@ -100,7 +105,7 @@ export default function PokeGrid() {
                 <Button
                     name="Prev"
                     handleClick={prevhandler}
-                    isDisabled={offset > 32 ? 'false' : 'true'}
+                    isDisabled={offset >= 32 ? false : true}
                 />
                 <Button
                     name="Next"
